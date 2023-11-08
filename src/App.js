@@ -1,24 +1,47 @@
-import logo from './logo.svg';
-import './App.css';
+import { useDispatch, useSelector } from "react-redux";
+import "./App.css";
+import { useEffect } from "react";
+import boardSlice, { moveBelow, updateBoard, updateBoardSize } from "./utils/redux/boardSlice";
+import { createBoard } from "./utils/createBoard";
+import Board from "./components/Board";
+import { checkForRowOfFour, checkForRowOfThree, isColumnOfFour, isColumnOfThree } from "./utils/moveCheckLogic";
+import { formulaForColumnofFour, formulaForColumnofThree, generateInvalidMoves } from "./utils/formulas";
 
 function App() {
+
+  let dispatch=useDispatch();
+  let board = useSelector((store) => store.candyCrush.board);
+  let boardsize=useSelector((store)=>store.candyCrush.boardSize);
+  // console.log(boardsize);
+  // console.log(board);
+
+  useEffect(()=>{
+    dispatch(updateBoard(createBoard(boardsize)))
+    // dispatch(updateBoardSize(9))
+    // console.log(createBoard(boardsize));
+  },[boardsize,dispatch])
+
+  useEffect(()=>{
+    let timeout=setTimeout(() => {
+      let newBoard=[...board];
+      isColumnOfFour(newBoard,boardsize,formulaForColumnofFour(boardsize))
+      checkForRowOfFour(newBoard,boardsize,generateInvalidMoves(boardsize,true))
+      isColumnOfThree(newBoard,boardsize,formulaForColumnofThree(boardsize))
+      checkForRowOfThree(newBoard,boardsize,generateInvalidMoves(boardsize,true))
+      dispatch(updateBoard(newBoard))
+      dispatch(moveBelow())
+    }, 150);
+
+    return()=>{
+      clearInterval(timeout)
+    }
+  },[board,boardsize,dispatch])
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <div className="flex items-center justify-center h-screen">
+       <Board/>
+      </div>
+    </>
   );
 }
 
