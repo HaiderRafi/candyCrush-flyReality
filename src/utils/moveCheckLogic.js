@@ -1,7 +1,12 @@
-export const isColumnOfFour = (newBoard, boardSize, formulaForColumnofFour) => {
+import { increaseScore } from "./redux/boardSlice";
+
+
+
+export const isColumnOfFour = (newBoard, boardSize, formulaForColumnofFour,dispatch) => {
   for (let i = 0; i <= formulaForColumnofFour; i++) {
     let columnOfFour = [i, i + boardSize, i + boardSize * 2, i + boardSize * 3];
     let decidedColor = newBoard[i];
+    
     let isBlank = newBoard[i] === "";
 
     if (
@@ -10,16 +15,18 @@ export const isColumnOfFour = (newBoard, boardSize, formulaForColumnofFour) => {
       )
     ) {
       columnOfFour.forEach((candy) => (newBoard[candy] = ""));
+      // dispatch(increaseScore());
       return true;
     }
   }
 };
 
 
-export const isColumnOfThree = (newBoard, boardSize, formulaForColumnofThree) => {
+export const isColumnOfThree = (newBoard, boardSize, formulaForColumnofThree,dispatch) => {
     for (let i = 0; i <= formulaForColumnofThree; i++) {
       let columnOfThree = [i, i + boardSize, i + boardSize * 2];
       let decidedColor = newBoard[i];
+      
       let isBlank = newBoard[i] === "";
   
       if (
@@ -28,16 +35,18 @@ export const isColumnOfThree = (newBoard, boardSize, formulaForColumnofThree) =>
         )
       ) {
         columnOfThree.forEach((candy) => (newBoard[candy] = ""));
+        // dispatch(increaseScore());
         return true;
       }
     }
   };
 
 
-  export let checkForRowOfFour=(newBoard,boardSize,invalidMoves)=>{
+  export let checkForRowOfFour=(newBoard,boardSize,invalidMoves,dispatch)=>{
     for(let i=0;i<boardSize*boardSize;i++){
         let rowOfFour=[i,i+1,i+2,i+3]
         let decidedColor = newBoard[i];
+        
         let isBlank = newBoard[i] === "";
         if(invalidMoves.includes(i)) continue;
 
@@ -47,15 +56,17 @@ export const isColumnOfThree = (newBoard, boardSize, formulaForColumnofThree) =>
             )
           ) {
             rowOfFour.forEach((candy) => (newBoard[candy] = ""));
+            // dispatch(increaseScore());
             return true;
           }
     }
 }
 
-export let checkForRowOfThree=(newBoard,boardSize,invalidMoves)=>{
+export let checkForRowOfThree=(newBoard,boardSize,invalidMoves,dispatch)=>{
     for(let i=0;i<boardSize*boardSize;i++){
         let rowOfThree=[i,i+1,i+2]
         let decidedColor = newBoard[i];
+        
         let isBlank = newBoard[i] === "";
         if(invalidMoves.includes(i)) continue;
 
@@ -65,6 +76,7 @@ export let checkForRowOfThree=(newBoard,boardSize,invalidMoves)=>{
             )
           ) {
             rowOfThree.forEach((candy) => (newBoard[candy] = ""));
+            // dispatch(increaseScore());
             return true;
           }
     }

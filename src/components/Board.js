@@ -6,7 +6,7 @@ const Board = () => {
   let board = useSelector((store) => store.candyCrush.board);
   let boardsize=useSelector((store)=>store.candyCrush.boardSize);
 
-  console.log(board);
+  // console.log(board);
 
   return (
     <div className="flex flex-wrap rounded-lg" style={{width:`${6.25*boardsize}rem`}}>

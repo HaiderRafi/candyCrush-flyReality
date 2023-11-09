@@ -6,7 +6,8 @@ let boardSlice=createSlice({
     name:"candyCrush",
     initialState:{
         board:[],
-        boardSize:10,
+        boardSize:8,
+        score:0,
         squareBeingDragged:undefined,
         squareBeingReplaced:undefined
 
@@ -29,10 +30,13 @@ let boardSlice=createSlice({
 
         },
         dragEnd:dragEndReducer,
-        moveBelow:moveBelowReducer
+        moveBelow:moveBelowReducer,
+        increaseScore:(state,action)=>{
+            state.score+=1;
+        }
 
     }
 })
 
-export const {updateBoard,updateBoardSize,moveBelow,dragStart,dragDrop,dragEnd}= boardSlice.actions
+export const {updateBoard,updateBoardSize,moveBelow,dragStart,dragDrop,dragEnd,increaseScore}= boardSlice.actions
 export default boardSlice.reducer;
